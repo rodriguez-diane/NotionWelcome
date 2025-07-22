@@ -3,79 +3,134 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Greeting Widget</title>
+  <title>Greetings</title>
+
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: transparent;
     }
 
-    .container {
+    body {
+      font-variant-caps: all-petite-caps;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .widget {
+      padding: 10px 20px;
       background-color: #c2c2c2;
-      color: #111111;
-      padding: 1rem 2rem;
-      border-radius: 16px;
+      color: #000000;
+      border: 3px solid #000000;
+      border-radius: 10px;
+      box-shadow: 2px 2px 1px 0px #000000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .greet {
+      font-size: 2.5em;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .date {
+      font-family: monospace;
+      font-size: 1.5em;
+    }
+
+    .clock {
+      font-family: monospace;
+      font-size: 1.5em;
+      margin-top: 0.2rem;
+    }
+
+    .time {
       display: inline-block;
-      margin: 1rem auto;
+      min-width: 20px;
     }
 
-    h1 {
-      margin: 0;
-      font-size: 1.8rem;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    .datetime {
-      margin-top: 0.5rem;
-      font-size: 1rem;
-      font-weight: 400;
+    .colon {
+      display: inline-block;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1 id="greeting">Loading...</h1>
-    <div class="datetime" id="datetime"></div>
+
+  <div class="widget">
+    <div class="greet" id="greet"></div>
+    <div class="date" id="date"></div>
+    <div class="clock">
+      <span class="time" id="hour"></span>
+      <span class="colon">:</span>
+      <span class="time" id="min"></span>
+      <span class="colon">:</span>
+      <span class="time" id="sec"></span>
+    </div>
   </div>
 
   <script>
-    const greetingEl = document.getElementById("greeting");
-    const datetimeEl = document.getElementById("datetime");
-
-    function updateGreeting() {
-      const now = new Date();
-      const hours = now.getHours();
-      let greeting = "";
-
-      if (hours < 12) {
-        greeting = "GOOD MORNING";
-      } else if (hours < 18) {
-        greeting = "GOOD AFTERNOON";
+    function displayGreetings(today) {
+      const hrs = today.getHours();
+      let greet = '';
+      if (hrs < 12) {
+        greet = 'GOOD MORNING DIANE';
+      } else if (hrs < 17) {
+        greet = 'GOOD AFTERNOON DIANE';
       } else {
-        greeting = "GOOD EVENING";
+        greet = 'GOOD EVENING DIANE';
       }
-
-      greetingEl.textContent = `${greeting} DIANE`;
-
-      const options = {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      };
-      datetimeEl.textContent = now.toLocaleString(undefined, options);
+      document.getElementById('greet').innerText = greet;
     }
 
-    updateGreeting();
-    setInterval(updateGreeting, 1000);
+    function displayDate(today) {
+      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const months = ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'];
+      const day = days[today.getDay()];
+      const month = months[today.getMonth()];
+      const date = today.getDate();
+      const year = today.getFullYear();
+      document.getElementById('date').innerText = `${day}, ${month} ${date}, ${year}`;
+    }
+
+    function displayClock(today) {
+      let hour = padZeros(twelveHour(today.getHours()));
+      let minute = padZeros(today.getMinutes());
+      let second = padZeros(today.getSeconds());
+      let meridian = today.getHours() >= 12 ? 'PM' : 'AM';
+
+      document.getElementById('hour').innerText = hour;
+      document.getElementById('min').innerText = minute;
+      document.getElementById('sec').innerText = `${second} ${meridian}`;
+    }
+
+    function twelveHour(hour) {
+      if (hour === 0) return 12;
+      if (hour > 12) return hour - 12;
+      return hour;
+    }
+
+    function padZeros(num) {
+      return num < 10 ? '0' + num : num;
+    }
+
+    function updateWidget() {
+      const now = new Date();
+      displayGreetings(now);
+      displayDate(now);
+      displayClock(now);
+      setTimeout(updateWidget, 1000);
+    }
+
+    updateWidget();
   </script>
+
 </body>
 </html>
