@@ -6,9 +6,13 @@
   <title>Notion Welcome Widget</title>
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    html {
+      font-size: 16px;
+    }
+
     body {
       background-color: transparent;
-      font-family: 'Lora', serif;
+      font-family: 'Lora', serif, Georgia, "Times New Roman", Times;
       margin: 0;
       padding: 0;
       display: flex;
@@ -26,64 +30,33 @@
       color: black;
       font-weight: 700;
       box-shadow: none;
-      display: inline-flex;       /* ✅ allow content to define width */
-      flex-direction: column;     /* stack greeting, date, time vertically */
-      align-items: center;        /* center inner content */
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 90vw;
+      box-sizing: border-box;
     }
 
     .greeting {
-      font-size: 2.2em;
+      font-size: 2.2rem;
       margin-bottom: 0.4em;
-      white-space: nowrap;        /* ✅ keep greeting on one line */
+      white-space: nowrap;
+      max-width: 100%;
+      transform: scale(0.98); /* slight scale to prevent overflow in Brave */
+      transform-origin: center;
     }
 
     .date {
-      font-size: 1.4em;
+      font-size: 1.4rem;
       margin-bottom: 0.3em;
     }
 
     .time {
-      font-size: 1.6em;
+      font-size: 1.6rem;
     }
   </style>
 </head>
 <body>
   <div class="widget">
     <div class="greeting" id="greeting">GOOD EVENING DIANE</div>
-    <div class="date" id="date"></div>
-    <div class="time" id="time"></div>
-  </div>
-
-  <script>
-    function updateTime() {
-      const now = new Date();
-
-      let hours = now.getHours();
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-
-      let displayHours = hours % 12;
-      displayHours = displayHours ? displayHours : 12;
-
-      let greeting = "GOOD EVENING";
-      if (hours < 12) {
-        greeting = "GOOD MORNING";
-      } else if (hours < 17) {
-        greeting = "GOOD AFTERNOON";
-      }
-
-      document.getElementById('greeting').innerText = `${greeting} DIANE`;
-
-      const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-      const formattedDate = now.toLocaleDateString(undefined, options);
-      document.getElementById('date').innerText = formattedDate;
-
-      document.getElementById('time').innerText = `${displayHours}:${minutes}:${seconds} ${ampm}`;
-    }
-
-    updateTime();
-    setInterval(updateTime, 1000);
-  </script>
-</body>
-</html>
+    <div class="date"
