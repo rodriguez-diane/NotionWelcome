@@ -21,7 +21,7 @@
       background-color: #d8b9ff; /* Soft lilac */
       border: 4px solid white;
       border-radius: 32px;
-      padding: 48px 24px; /* More vertical padding */
+      padding: 48px 24px;
       text-align: center;
       color: black;
       font-weight: 700;
@@ -33,51 +33,3 @@
     .greeting {
       font-size: 2.2em;
       margin-bottom: 0.5em;
-    }
-
-    .date {
-      font-size: 1.4em;
-      margin-bottom: 0.3em;
-    }
-
-    .time {
-      font-size: 1.6em;
-    }
-  </style>
-</head>
-<body>
-  <div class="widget">
-    <div class="greeting" id="greeting">GOOD EVENING DIANE</div>
-    <div class="date" id="date"></div>
-    <div class="time" id="time"></div>
-  </div>
-
-  <script>
-    function updateTime() {
-      const now = new Date();
-
-      const hours = now.getHours();
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-
-      let greeting = "GOOD EVENING";
-      if (hours < 12) {
-        greeting = "GOOD MORNING";
-      } else if (hours < 17) {
-        greeting = "GOOD AFTERNOON";
-      }
-
-      document.getElementById('greeting').innerText = `${greeting} DIANE`;
-
-      const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-      const formattedDate = now.toLocaleDateString(undefined, options);
-      document.getElementById('date').innerText = formattedDate;
-
-      document.getElementById('time').innerText = `${hours}:${minutes}:${seconds}`;
-    }
-
-    updateTime();
-    setInterval(updateTime, 1000);
-  </script>
-</body>
-</html>
