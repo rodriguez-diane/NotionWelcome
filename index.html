@@ -21,22 +21,19 @@
       background-color: #d8b9ff; /* Soft lilac */
       border: 4px solid white;
       border-radius: 32px;
-      padding: 48px 24px;
+      padding: 48px 36px;
       text-align: center;
       color: black;
       font-weight: 700;
       width: 100%;
-      max-width: 400px;
+      max-width: 560px; /* Increased width for single-line greeting */
       box-shadow: none;
     }
 
     .greeting {
       font-size: 2.2em;
       margin-bottom: 0.5em;
-      font-stretch: expanded;
-      letter-spacing: 0.05em;
-      display: block;
-      width: 100%;
+      white-space: nowrap; /* Prevent line break */
     }
 
     .date {
@@ -66,7 +63,7 @@
       const ampm = hours >= 12 ? 'PM' : 'AM';
 
       let displayHours = hours % 12;
-      displayHours = displayHours ? displayHours : 12; // 0 becomes 12
+      displayHours = displayHours ? displayHours : 12;
 
       let greeting = "GOOD EVENING";
       if (hours < 12) {
