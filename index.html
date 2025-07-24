@@ -25,18 +25,14 @@
       text-align: center;
       color: black;
       font-weight: 700;
-      width: 100%;
-      max-width: 300px; /* Adjusted for wider greeting */
       box-shadow: none;
+      display: inline-block;       /* auto width based on content */
+      white-space: nowrap;         /* prevent wrapping */
     }
 
     .greeting {
       font-size: 2.2em;
       margin-bottom: 0.4em;
-      white-space: nowrap; /* Prevent line break */
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: inline-block; /* Prevent wrapping */
     }
 
     .date {
@@ -48,44 +44,4 @@
       font-size: 1.6em;
     }
   </style>
-</head>
-<body>
-  <div class="widget">
-    <div class="greeting" id="greeting">GOOD EVENING DIANE</div>
-    <div class="date" id="date"></div>
-    <div class="time" id="time"></div>
-  </div>
-
-  <script>
-    function updateTime() {
-      const now = new Date();
-
-      let hours = now.getHours();
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-
-      let displayHours = hours % 12;
-      displayHours = displayHours ? displayHours : 12;
-
-      let greeting = "GOOD EVENING";
-      if (hours < 12) {
-        greeting = "GOOD MORNING";
-      } else if (hours < 17) {
-        greeting = "GOOD AFTERNOON";
-      }
-
-      document.getElementById('greeting').innerText = `${greeting} DIANE`;
-
-      const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-      const formattedDate = now.toLocaleDateString(undefined, options);
-      document.getElementById('date').innerText = formattedDate;
-
-      document.getElementById('time').innerText = `${displayHours}:${minutes}:${seconds} ${ampm}`;
-    }
-
-    updateTime();
-    setInterval(updateTime, 1000);
-  </script>
-</body>
-</html>
+</h
