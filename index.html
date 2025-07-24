@@ -30,7 +30,7 @@
       color: black;
       font-weight: 700;
       box-shadow: none;
-      display: inline-flex;
+      display: flex;               /* flex container for vertical stacking */
       flex-direction: column;
       align-items: center;
       max-width: 90vw;
@@ -40,9 +40,9 @@
     .greeting {
       font-size: 2.2rem;
       margin-bottom: 0.4em;
-      white-space: nowrap;
+      white-space: nowrap;         /* only affects greeting */
       max-width: 100%;
-      transform: scale(0.98); /* slight scale to prevent overflow in Brave */
+      transform: scale(0.98);      /* optional for Brave */
       transform-origin: center;
     }
 
@@ -59,4 +59,40 @@
 <body>
   <div class="widget">
     <div class="greeting" id="greeting">GOOD EVENING DIANE</div>
-    <div class="date"
+    <div class="date" id="date"></div>
+    <div class="time" id="time"></div>
+  </div>
+
+  <script>
+    function updateTime() {
+      const now = new Date();
+
+      let hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+
+      let displayHours = hours % 12;
+      displayHours = displayHours ? displayHours : 12;
+
+      let greeting = "GOOD EVENING";
+      if (hours < 12) {
+        greeting = "GOOD MORNING";
+      } else if (hours < 17) {
+        greeting = "GOOD AFTERNOON";
+      }
+
+      document.getElementById('greeting').innerText = `${greeting} DIANE`;
+
+      const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+      const formattedDate = now.toLocaleDateString(undefined, options);
+      document.getElementById('date').innerText = formattedDate;
+
+      document.getElementById('time').innerText = `${displayHours}:${minutes}:${seconds} ${ampm}`;
+    }
+
+    updateTime();
+    setInterval(updateTime, 1000);
+  </script>
+</body>
+</html>
